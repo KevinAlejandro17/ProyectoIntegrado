@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html,
+body,
+#root
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ivory;
+}
+
+.si {
+    padding: 1rem;
+    background-image: linear-gradient(to left, violet, indigo, blue, green, orange, red, yellow);
+    color: white;
+    border-radius: 10%;
+    font-family: 'Roboto', sans-serif;
+}
