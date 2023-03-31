@@ -1,7 +1,8 @@
 import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 import Burger from './Burger'
-import Cyber from './Cyber'
+import Pyramid from './Pyramid'
+import Alien from './Alien'
 
 export default function Experience() {
     return <>
@@ -12,8 +13,8 @@ export default function Experience() {
         <directionalLight position={[1, 2, 3]} intensity={1.5} />
         <ambientLight intensity={0.5} />
 
-      
-        <Cyber />
+        <Alien />
+        <Pyramid />
 
         <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={100}><planeGeometry /><meshStandardMaterial color="greenyellow" /></mesh>
     </>

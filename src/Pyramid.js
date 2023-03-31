@@ -6,7 +6,7 @@ export default function Cyber(props) {
   const { nodes, materials } = useGLTF("/static/Pyramid.glb");
   return (
     <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]} scale={0.0129314} position-y={-1}>
+      <group rotation={[-Math.PI / 2, 0, 0]} scale={0.02} position-y={-1.3}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group
             position={[0.71042252, 0, 0.05725479]}
