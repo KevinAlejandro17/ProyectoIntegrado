@@ -1,11 +1,11 @@
 import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 import Burger from './Burger'
-import Fox from './Fox'
+import Cyber from './Cyber'
 
 export default function Experience() {
     return <>
-        <Perf position="top-left" />
+    
 
         <OrbitControls makeDefault />
 
@@ -13,7 +13,7 @@ export default function Experience() {
         <ambientLight intensity={0.5} />
 
         <Burger />
-        <Fox />
+        <Cyber />
 
         <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={100}><planeGeometry /><meshStandardMaterial color="greenyellow" /></mesh>
     </>
