@@ -2,15 +2,15 @@ import { MeshReflectorMaterial, OrbitControls, Sky, useTexture } from '@react-th
 import { useFrame } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import { useRef } from 'react'
-import { SphereGeometry } from 'three'
+import Door from './Door'
 import FoxModel from './FoxModel'
 
 export default function Experience() {
     const sphereRef = useRef();
 
     useFrame((state, delta) => {
-        sphereRef.current.position.y = 1 + Math.sin(state.clock.elapsedTime/0.5);
-      });
+        //sphereRef.current.position.y = 1 + Math.sin(state.clock.elapsedTime/0.5);
+    });
 
       const texture = useTexture("/static/BeachBallColor.jpg");
     return <>
@@ -26,13 +26,15 @@ export default function Experience() {
 
         />
 
-        <directionalLight position={[1, 2, 3]} intensity={1.5} />
+        <directionalLight position={[0, 2, -10]} intensity={1.5} />
         <ambientLight intensity={0.5} />
 
         <FoxModel scale={0.02} position-y={-1} />
 
+        <Door position={[0,1,0]}/>
+
         <group>
-            <mesh scale={0.8} position-z={2.5} ref={sphereRef}>
+            <mesh scale={0.8} position-y={4.2} ref={sphereRef}>
                 <sphereGeometry />
                 <meshStandardMaterial map={texture}/>
             </mesh>
