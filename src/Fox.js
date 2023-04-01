@@ -11,12 +11,7 @@ const Fox = (props) => {
   }, []);
 
   return (
-    <primitive
-      object={scene}
-      scale={0.02}
-      position-y={-1}
-      rotation-y={8}
-    ></primitive>
+    <primitive object={scene} scale={0.02} position-y={-1} rotation-y={8} />
   );
 };
 export default Fox;
