@@ -14,7 +14,7 @@ const Door = ({position}) => {
     })
 
     return (
-        <mesh position={position} rotation-y={7.9}>
+        <mesh castShadow position={position} >
             <planeGeometry args={[2, 5]} />
             <meshStandardMaterial {...props} side={DoubleSide} />
         </mesh>

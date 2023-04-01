@@ -21,7 +21,7 @@ export default function FoxModel(props) {
   }, [animationName])
 
   return (
-    <group ref={group} {...props} dispose={null} position-y={5} scale={0.008}
+    <group ref={group} {...props} dispose={null} 
     >
       <group>
         <group name="root">
@@ -31,6 +31,7 @@ export default function FoxModel(props) {
             geometry={nodes.fox.geometry}
             material={materials.fox_material}
             skeleton={nodes.fox.skeleton}
+            castShadow
           />
         </group>
       </group>
