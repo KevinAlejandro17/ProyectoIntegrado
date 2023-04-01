@@ -21,7 +21,8 @@ export default function FoxModel(props) {
   }, [animationName])
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null} position-y={5} scale={0.008}
+    >
       <group>
         <group name="root">
           <primitive object={nodes._rootJoint} />
