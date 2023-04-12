@@ -1,67 +1,120 @@
-import { MeshReflectorMaterial, OrbitControls, Sky, useTexture } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
-import { Perf } from 'r3f-perf'
-import { useRef } from 'react'
-import Door from './Door'
-import Floor from './Floor'
-import FoxModel from './FoxModel'
+//Componentes de Drei
+import { Text, OrbitControls, Sky, Stars } from "@react-three/drei";
 
-import { DirectionalLightHelper } from 'three';
-import { useHelper } from '@react-three/drei'
+//Hooks de React
+import { useEffect, useRef, useState } from "react";
 
+//Mis componentes
+import Floor from "./Floor";
+import Object from "./PBRObject";
+
+//Selector de tipo de luz
+import { useControls } from "leva";
+
+//Helpers
+import {
+  HemisphereLightHelper,
+  PointLightHelper,
+  SpotLightHelper,
+} from "three";
+
+import { useHelper } from "@react-three/drei";
+
+//Función que renderiza el tipo de luz seleccionada
+const Light = ({ type, hemisphereLightRef, pointLightRef, spotLightRef }) => {
+  if (type === "hemisphereLight") {
+    return (
+      <hemisphereLight
+        castShadow
+        ref={hemisphereLightRef}
+        position={[0, 1, 0]}
+        args={["#87cefa", "#ffffff", 2]}
+      />
+    );
+  } else if (type === "pointLight") {
+    return (
+      <pointLight
+        castShadow
+        ref={pointLightRef}
+        position-y={2}
+        color="yellow"
+      />
+    );
+  } else if (type === "spotLight") {
+    return (
+      <spotLight
+        castShadow
+        ref={spotLightRef}
+        intensity={2}
+        color="orangered"
+        position-y={3}
+        distance={15}
+      />
+    );
+  } else {
+    return <rectAreaLight castShadow ref={null} color="pink" width={10} />;
+  }
+};
 
 export default function Experience() {
-    const sphereRef = useRef();
+  //Selector para los tipos de luz
+  const { lightType } = useControls({
+    lightType: {
+      options: ["hemisphereLight", "pointLight", "rectAreaLight", "spotLight"],
+    },
+  });
 
-    useFrame((state, delta) => {
-        //sphereRef.current.position.y = 1 + Math.sin(state.clock.elapsedTime/0.5);
-    });
-   
-    const directionalLightRef = useRef();
+  const hemisphereLightRef = useRef();
+  const pointLightRef = useRef();
+  const spotLightRef = useRef();
 
-    const texture = useTexture("/static/BeachBallColor.jpg");
+  const [helper, setHelper] = useState([]);
 
-    useHelper(directionalLightRef, DirectionalLightHelper, 1)
+  //Se validan los cambios en el selector y se asigna el helper que corresponde al tipo de luz
+  useEffect(() => {
+    let helper;
+    if (lightType === "hemisphereLight") {
+      helper = [hemisphereLightRef, HemisphereLightHelper, 1];
+    } else if (lightType === "pointLight") {
+      helper = [pointLightRef, PointLightHelper, 1, "yellow"];
+    } else if (lightType === "spotLight") {
+      helper = [spotLightRef, SpotLightHelper, "darkred"];
+    } else if (lightType === "rectAreaLight") {
+      helper = [null, null, null];
+    }
+    setHelper(helper);
+  }, [lightType]);
 
-    return <>
-        <OrbitControls makeDefault enablePan={false} maxPolarAngle={1.5} />
+  useHelper(...helper);
 
-        <Sky
-            distance={45000}
-            sunPosition={[1, -0.05, 1.2]}
-            inclination={0}
-            azimuth={0.25}
-            elevation={1}
-            rayleigh={3}
+  return (
+    <>
+      <OrbitControls makeDefault enablePan={false} maxPolarAngle={1.5} />
+      {/*-------------------------------------- CIELO Y ESTRELLAS --------------------------------------*/}
+      <Sky
+        distance={45000}
+        sunPosition={[1, -0.05, 1.2]}
+        inclination={0}
+        azimuth={0.25}
+        elevation={1}
+        rayleigh={3}
+      />
+      <Stars factor={1} radius={20} />
+      <ambientLight intensity={0.8} />
+      {/*----------------------------------------- LUCES -----------------------------------------*/}
+      <Light
+        type={lightType}
+        hemisphereLightRef={hemisphereLightRef}
+        pointLightRef={pointLightRef}
+        spotLightRef={spotLightRef}
+      />
 
-        />
-
-        <directionalLight castShadow position={[15,20,5]} intensity={1.5} ref={directionalLightRef} />
-        <ambientLight intensity={0.5} />
-
-
-        {/*<Door position={[0, 1, 0]} />*/}
-        <FoxModel scale={0.08} position-y={-1.5}/>
-
-        <Floor scale={10}/>
-
-        {/*<group>
-            <mesh scale={0.8} position-y={4.2} ref={sphereRef}>
-                <sphereGeometry />
-                <meshStandardMaterial map={texture} />
-            </mesh>
-
-             <mesh rotation-x={-Math.PI * 0.5} scale={50} position-y={-1}>
-                <planeGeometry />
-                <MeshReflectorMaterial
-                    resolution={512}
-                    blur={[1000, 1000]}
-                    mixBlur={1}
-                    mirror={0.6}
-                    color={"darkgrey"}
-                />
-            </mesh>
-        </group>*/}
-
+      {/*----------------------------------------- MODELOS -----------------------------------------*/}
+      <Object scale={2} position-y={-0.5} />
+      <Floor scale={10} />
+      <Text scale={0.3} position={[0, -1.4, 1.5]} rotation={[30, 0, 0]} color="#000000">
+        {lightType}
+      </Text>
     </>
+  );
 }
