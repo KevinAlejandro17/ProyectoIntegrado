@@ -7,6 +7,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <Canvas>
+        {/* <axesHelper position-y={-0.2}/> */}
         <Experience />
     </Canvas>
 )
