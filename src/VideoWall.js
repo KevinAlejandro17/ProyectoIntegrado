@@ -11,7 +11,7 @@ const VideoWall = () => {
 
   const videoSrc = "/static/world.mp4";
 
-  const [play, setPlay] = useState(true);
+  const [play, setPlay] = useState(false);
 
   const videoProps = { start: play, muted: play };
   const videoTexture = useVideoTexture(videoSrc, videoProps);
